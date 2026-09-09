@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>NeuroForge Enterprise</title>
+        <link rel="stylesheet" href="css/style.css?v=3.0">
+    </head>
+    <body>
+        <div class="app">
+            <aside>
+                <div class="brand">⚡ NeuroForge</div>
+                <div class="sub">Enterprise SDLC Platform</div>
+                <nav>
+                    <button class="nav active" data-page="dashboard">Dashboard</button>
+                    <button class="nav" data-page="users">Users</button>
+                    <button class="nav" data-page="projects">Projects</button>
+                    <button class="nav" data-page="sprints">Sprints</button>
+                    <button class="nav" data-page="tasks">Tasks</button>
+                    <button class="nav" data-page="bugs">Bug Reports</button>
+                    <button class="nav" data-page="ai">🤖 AI Assistant</button>
+                </nav>
+                <div class="side-foot">Backend: <span id="status">checking...</span></div>
+            </aside>
+            <main>
+                <header>
+                    <div>
+                        <h1 id="pageTitle">Dashboard</h1>
+                        <p id="pageSub">Project and SDLC overview</p>
+                    </div>
+                    <button class="refresh" onclick="loadDashboard()">↻ Refresh</button>
+                </header>
+                <section id="page"></section>
+            </main>
+        </div>
+        <div id="toast"></div>
+        <script src="js/app.js?v=3.0"></script>
+    </body>
+</html>
