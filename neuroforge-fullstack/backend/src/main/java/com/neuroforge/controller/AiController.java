@@ -7,6 +7,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 
 @RestController
 @RequestMapping("/api/ai")
@@ -14,15 +15,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class AiController {
 
     private static final String GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
-    private static final String API_KEY = "REMOVED_GROQ_KEY";
     private static final String MODEL = "openai/gpt-oss-20b";
     private final ObjectMapper objectMapper = new ObjectMapper();
+
+    @Value("${groq.api.key:}")
+    private String apiKey;
 
     @PostMapping("/chat")
     public Map<String, String> chat(@RequestBody Map<String, String> payload) {
         String userPrompt = payload.getOrDefault("prompt", "");
         if (userPrompt.trim().isEmpty()) {
             return Map.of("response", "Please provide a prompt.");
+        }
+        if (apiKey == null || apiKey.isBlank()) {
+            return Map.of("response", "AI service is not configured. Set GROQ_API_KEY before starting the backend.");
         }
 
         try {
@@ -42,7 +48,7 @@ public class AiController {
 
             HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(GROQ_API_URL))
-                .header("Authorization", "Bearer " + API_KEY)
+                .header("Authorization", "Bearer " + apiKey)
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(jsonPayload))
                 .build();
